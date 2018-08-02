@@ -3,7 +3,7 @@ defmodule Purl.Example do
 
   use Purl,
     entry_chain: handshake,
-    stanzas: __MODULE__.Stanzas
+    stanzas: Purl.Example.Stanzas
 
   def init(state), do: state
 
