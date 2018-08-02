@@ -2,7 +2,7 @@ defmodule Purl.Example.Stanzas do
   use Purl.Stanzas, handlers_module: Purl.Example.Handlers
 
   accept hello,
-    type: :fixed_message,
+    type: :literal,
     message: "HH",
     handler: fn -> :start_v1 end
 
@@ -17,7 +17,7 @@ defmodule Purl.Example.Stanzas do
     handler: :verify_job_id
 
   accept terminate,
-    type: :fixed_message,
+    type: :literal,
     message: "99",
     handler: fn -> :terminate end
 
