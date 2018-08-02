@@ -8,14 +8,14 @@ defmodule Purl.Example do
   def init(state), do: state
 
   proto handshake,
-    starts_accepting: :hello,
+    accepting: :hello,
     timeout: 1000,
     does: [
       on :start_v1, switch_proto: v1_auth
     ]
 
   proto v1_auth,
-    starts_accepting: :apikey,
+    accepting: :apikey,
     timeout: 1000,
     does: [
       on :no_such_api_key,
@@ -26,7 +26,7 @@ defmodule Purl.Example do
     ]
 
   proto v1_init_job
-    starts_accepting: :job_id,
+    accepting: :job_id,
     timeout: 1000,
     does: [
       on :no_such_job_id,
@@ -37,10 +37,11 @@ defmodule Purl.Example do
     ]
 
   proto v1_main,
-    starts_processing: :run_job,
-    starts_accepting: [:terminate, :client_info_json, :client_info_etf],
+    processing: :run_job,
+    accepting: [:abort, :client_info_json, :client_info_etf],
     does: [
       on :job_done, terminate: true
+      on :abort, terminate: true
       on :job_msg, response: [:info, data.message]
       on :received_info, log: {:debug, msg}
     ]

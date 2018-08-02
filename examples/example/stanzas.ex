@@ -20,10 +20,10 @@ defmodule Purl.Example.Stanzas do
     end_token: <<0>>,
     handler: :verify_job_id
 
-  accept terminate,
+  accept abort,
     type: :literal,
     message: "99",
-    handler: fn -> :terminate end
+    handler: fn -> :abort end
 
   accept ping,
     type: :tagged_message,
