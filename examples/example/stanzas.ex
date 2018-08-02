@@ -46,7 +46,8 @@ defmodule Purl.Example.Stanzas do
     handler: :client_message 
 
   process run_job,
-    handler: :exec
+    handler: :exec,
+    async: true
 
   respond error,
     type: :tagged_message,
