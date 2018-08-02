@@ -10,17 +10,17 @@ defmodule Purl.Example do
   proto handshake,
     starts_accepting: :hello,
     timeout: 1000,
-    is: [
+    does: [
       on :start_v1, switch_proto: v1_auth
     ]
 
   proto v1_auth,
     starts_accepting: :apikey,
     timeout: 1000,
-    is: [
+    does: [
       on :no_such_api_key,
         reponse: [:error, <<"no such key">>],
-      terminate: true
+        terminate: true
 
       on :ready, switch_proto: :v1_init_job
     ]
@@ -28,7 +28,7 @@ defmodule Purl.Example do
   proto v1_init_job
     starts_accepting: :job_id,
     timeout: 1000,
-    is: [
+    does: [
       on :no_such_job_id,
         response: [:error, <<"no such job">>],
         terminate: true
@@ -39,7 +39,7 @@ defmodule Purl.Example do
   proto v1_main,
     starts_processing: :run_job,
     starts_accepting: [:terminate, :client_info_json, :client_info_etf],
-    is: [
+    does: [
       on :job_done, terminate: true
       on :job_msg, response: [:info, data.message]
       on :received_info, log: {:debug, msg}
