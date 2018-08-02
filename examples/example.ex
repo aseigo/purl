@@ -29,7 +29,7 @@ defmodule Purl.Example do
     on :ready do, switch_proto: :v1_main
   end
 
-  proto v1_main(processing: run_job, accepting: [:terminate, :client_info]) do
+  proto v1_main(processing: run_job, accepting: [:terminate, :client_info_json, :client_info_etf]) do
     on :job_set, do: :run_job
 
     on :job_done, do: :terminate

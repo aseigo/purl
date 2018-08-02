@@ -27,10 +27,18 @@ defmodule Purl.Example.Stanzas do
     end_token: <<0>>,
     response: :pong
 
-  accept client_info,
+  accept client_info_json,
     type: :tagged_varlength_message,
     tag: "40",
-    max_size: 1024,
+    format: :json,
+    max_length: 4 * 1024,
+    handler: :client_message 
+
+  accept client_info_etf,
+    type: :tagged_varlength_message,
+    tag: "41",
+    format: :etf,
+    max_length: 4 * 1024,
     handler: :client_message 
 
   process run_job,
