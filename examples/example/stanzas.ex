@@ -1,4 +1,6 @@
 defmodule Purl.Example.Stanzas do
+  use Purl.Stanzas, handlers_module: Purl.Example.Handlers
+
   accept init,
     type: :fixed_message,
     message: "HH",
