@@ -17,7 +17,7 @@ defmodule Purl.Example do
         :terminate
     end
 
-    on :ready do, switch_proto: :v1_init_job
+    on :ready, switch_proto: :v1_init_job
   end
 
   proto v1_init_job(accepting: :job_id, timeout: 1000) do
@@ -26,7 +26,7 @@ defmodule Purl.Example do
         :terminate
     end
 
-    on :ready do, switch_proto: :v1_main
+    on :ready, switch_proto: :v1_main
   end
 
   proto v1_main(processing: run_job, accepting: [:terminate, :client_info_json, :client_info_etf]) do
