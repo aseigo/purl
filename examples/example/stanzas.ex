@@ -36,14 +36,14 @@ defmodule Purl.Example.Stanzas do
     tag: "40",
     format: :json,
     max_length: 4 * 1024,
-    handler: :client_message 
+    handler: fn msg -> {:received_info, msg} end
 
   accept client_info_etf,
     type: :tagged_varlength_message,
     tag: "41",
     format: :etf,
     max_length: 4 * 1024,
-    handler: :client_message 
+    handler: fn msg -> {:received_info, msg} end
 
   process run_job,
     handler: :exec,
