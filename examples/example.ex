@@ -1,11 +1,11 @@
 defmodule Purl.Example do
+  defstruct api_key: nil, job_id: nil
+
   use Purl,
     entry_chain: handshake,
-    stanzas: __MODULE__.Stanzas,
-    handlers: __MODULE__.Handlers
+    stanzas: __MODULE__.Stanzas
 
-  def new_state(), do %{api_key: nil, job_id: nil}
-
+  def init(state), do: state
 
   proto handshake(accepting: :init, timeout: 1000) do
     on :start_v1, switch_proto: v1_auth
