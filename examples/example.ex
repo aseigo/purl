@@ -7,7 +7,7 @@ defmodule Purl.Example do
 
   def init(state), do: state
 
-  proto handshake(accepting: :init, timeout: 1000) do
+  proto handshake(accepting: :hello, timeout: 1000) do
     on :start_v1, switch_proto: v1_auth
   end
 
