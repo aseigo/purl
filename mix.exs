@@ -19,6 +19,7 @@ defmodule Purl.MixProject do
 
   defp deps do
     [
+      {:ranch, "~>1.5.0"},
     ]
   end
 end
