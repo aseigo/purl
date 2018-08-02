@@ -46,8 +46,6 @@ defmodule Purl.Example.Stanzas do
     handler: :client_message 
 
   process run_job,
-    type: :send,
-    timeout: :infinite,
     handler: :exec
 
   respond error,
