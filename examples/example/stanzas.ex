@@ -1,6 +1,10 @@
 defmodule Purl.Example.Stanzas do
   use Purl.Stanzas, handlers_module: Purl.Example.Handlers
 
+  //TODO: other types:
+  //  * :stream
+  //  * :varlength_message
+
   accept hello,
     type: :literal,
     message: "HH",
