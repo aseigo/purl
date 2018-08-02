@@ -27,13 +27,13 @@ defmodule Purl.Example do
     timeout: 1000,
     handler: :abort
 
-  accept terminate,
+  accept client_info,
     type: :tagged_varlength_message,
     tag: "40",
-    max_size: 1_024,
+    max_size: 1024,
     handler: :client_message 
 
-  accept run_job,
+  process run_job,
     type: :send,
     timeout: :infinite,
     handler: :exec
@@ -47,27 +47,29 @@ defmodule Purl.Example do
     type: :tagged_varlength_message,
     tag: "20"
 
-  proto handshake(timeout: 1000, accepting: :init) do
+  proto handshake(accepting: :init) do
     on :start_v1, switch_proto: v1_auth
   end
 
-  proto v1_auth(timeout: 1000, accepting: :apikey) do
+  proto v1_auth(accepting: :apikey) do
     on :no_such_api_key do
         respond(:error, <<"no such key">>)
+        :terminate
+    end
+
+    on :ready do, switch_proto: :v1_init_job
+  end
+
+  proto v1_init_job(accepting: :job_id) do
+    on :no_such_job_id do
+        respond(:error, <<"no such job">>)
         :terminate
     end
 
     on :ready do, switch_proto: :v1_main
   end
 
-  proto v1_main(tmieout: 1000, accepting: :job_id) do
-    on :api_key_good, do: :set_job
-
-    on :no_such_job_id do
-        respond(:error, <<"no such job">>)
-        :terminate
-    end
-
+  proto v1_main(processing: run_job, accepting: :client_info) do
     on :job_set, do: :run_job
 
     on :job_done, do: :terminate
@@ -79,7 +81,7 @@ defmodule Purl.Example do
   end
 
   def verify_key(api_key, state) do
-    if api_key == "bbe9d0b1-d3d1-40a7-b1fe-392f90c8d471"
+    if api_key == "bbe9d0b1-d3d1-40a7-b1fe-392f90c8d471" do
       {:ready, %{state | api_key: api_key}}
     else
       :no_such_api_key
@@ -91,7 +93,7 @@ defmodule Purl.Example do
   end
 
   def verify_job_id(job_id, state) do
-    {:job_ready, %{state | job_id: job_id}}
+    {:ready, %{state | job_id: job_id}}
   end
 
   def run_job(%{done: true} = state) do
