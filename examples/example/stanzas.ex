@@ -1,9 +1,9 @@
 defmodule Purl.Example.Stanzas do
   use Purl.Stanzas, handlers_module: Purl.Example.Handlers
 
-  //TODO: other types:
-  //  * :stream
-  //  * :varlength_message
+  #TODO: other types:
+  #* :stream
+  #  * :varlength_message
 
   accept hello,
     type: :literal,
@@ -59,6 +59,6 @@ defmodule Purl.Example.Stanzas do
     tag: "20"
 
   respond pong,
-    type: :fixed_message
+    type: :fixed_message,
     message: "pong" <> <<0>>
 end

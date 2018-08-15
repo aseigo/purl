@@ -1,4 +1,4 @@
-defmodule Purl.Example.Handers do
+defmodule Purl.Example.Handlers do
   def verify_key(api_key, state) do
     if api_key == "bbe9d0b1-d3d1-40a7-b1fe-392f90c8d471" do
       {:ready, %{state | api_key: api_key}}
